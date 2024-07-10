@@ -1,23 +1,40 @@
-import React from 'react'
+import { useState } from 'react'
 import styled from 'styled-components'
-import { Space } from '../Spaces'
+import Button from '../../../component/button/Button';
+import { StyledDropMenuProps } from './types';
+import { useAppSelector } from '../../../model/store';
+import { SpaceType } from '../../../model/spaces/types';
 
-type SpacesBarProps = {
-  spaces: Space[];
-}
+const SpacesBar = () => {
+  const spaces = useAppSelector<SpaceType[]>(state => state.spaces);
+  const [dropMenuView, setDropMenuView] = useState<boolean>(false);
 
-const SpacesBar = (props: SpacesBarProps) => {
+  const createSpaceButtonHandler = () => {
+    setDropMenuView(!dropMenuView)
+  };
+
+  const createSpaceModalButton = () => {
+
+  };
+
   return (
     <StyledSpacesBar>
       <StyledHeader>
         <h3>Workspaces</h3>
-        <button>+</button>
+        <div>
+          <Button title="+" height="1.7rem" width="1.7rem" clickCallback={createSpaceButtonHandler}/>
+          <DropMenu dropMenuView={dropMenuView}>
+            <p>Space Title</p>
+            <input type="text" />
+            <Button title="Create" clickCallback={() => {}}/>
+          </DropMenu>
+        </div>
       </StyledHeader>
       <StyledWorkSpaceList>
-        {props.spaces.map(item => <StyledWorkSpaceItem><a>{item.title}</a></StyledWorkSpaceItem>)}
+        {spaces.map(space => <StyledWorkSpaceItem>{space.title}</StyledWorkSpaceItem>)}
       </StyledWorkSpaceList>
     </StyledSpacesBar>
-  )
+  );
 }
 
 const StyledSpacesBar = styled.nav`
@@ -50,6 +67,27 @@ const StyledWorkSpaceList = styled.ul`
 const StyledWorkSpaceItem = styled.li`
   font-size: 1.3em;
   margin-bottom: 5px;
+`
+
+const DropMenu = styled.div<StyledDropMenuProps>`
+  position: fixed;
+  left: 230px;
+  background-color: #f1f1f1;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  height: 200px;
+  width: 150px;
+  z-index: 999;
+  padding: 1rem 0.5rem;
+  display: ${p => p.dropMenuView ? "block" : "none"};
+  p {
+    font-size: 1.1em;
+    font-weight: bold;
+  }
+  input {
+    max-width: 130px;
+    margin-bottom: 10px;
+    height: 1.7rem;
+  }
 `
 
 export default SpacesBar

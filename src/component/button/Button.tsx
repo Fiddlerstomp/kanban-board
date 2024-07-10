@@ -7,16 +7,16 @@ type StyledButtonProps = {
     width?: string;
     color?: string;
     border?: string;
-    
 }
 
 type ButtonProps = {
     title: string;
+    clickCallback: () => void;
 } & StyledButtonProps
 
 const Button = (props: ButtonProps) => {
   return (
-    <StyledButton backgroundColor={props.backgroundColor} height={props.height} width={props.width}>
+    <StyledButton backgroundColor={props.backgroundColor} height={props.height} width={props.width} onClick={props.clickCallback}>
         {props.title}
     </StyledButton>
   )

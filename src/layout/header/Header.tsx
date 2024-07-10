@@ -10,7 +10,7 @@ const Header = () => {
         <StyledHeader>
             <Side>
                 <Logo src="logo.png" alt="logo" pointer={true} />
-                <Button height='40px' width='70px' title="Create" />
+                <Button height='40px' width='70px' title="Create" clickCallback={() => {}}/>
             </Side>
             <Side>
                 <SearchBar />

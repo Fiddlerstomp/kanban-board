@@ -2,11 +2,16 @@ import React from 'react'
 import styled from 'styled-components'
 import BoardCard from './BoardCard'
 import CreateBoardCard from './CreateBoardCard'
+import { SpaceType } from '../../../model/spaces/types'
 
-const SpacesMain = () => {
+type SpacesMainProps = {
+  spaces: SpaceType[];
+}
+
+const SpacesMain = (props: SpacesMainProps) => {
   return (
     <StyledSpacesMain>
-        <BoardCard title="First board" />
+        {props.spaces.map(space => <BoardCard title={space.title} />)}
         <CreateBoardCard />
     </StyledSpacesMain>
   )
