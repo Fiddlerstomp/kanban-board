@@ -67,6 +67,7 @@ const StyledWorkSpaceList = styled.ul`
 const StyledWorkSpaceItem = styled.li`
   font-size: 1.3em;
   margin-bottom: 5px;
+  cursor: pointer;
 `
 
 const DropMenu = styled.div<StyledDropMenuProps>`
