@@ -1,4 +1,9 @@
 export type LoginRequestType = {
-    login: string;
+    email: string;
     password: string;
+};
+
+export type CreateSpaceRequestType = {
+    title: string;
+    ordering: number[];
 };

@@ -6,12 +6,13 @@ const instance = axios.create({
 });
 
 const authAPI = {
-    login(login: string = "valeramaratovich@gmail.com", password: string = "Djangothebest") {
-        const loginData: LoginRequestType = {login, password};
+    login(email: string = "valera.maratovich@gmail.com", password: string = "Djangothebest") {
+        const loginData: LoginRequestType = {email, password};
+        console.log(loginData);
         return instance.post<LoginRequestType, string>("/login", loginData);
     },
-    register(login: string, password: string) {
-        const registerData: LoginRequestType = {login, password};
+    register(email: string, password: string) {
+        const registerData: LoginRequestType = {email, password};
         return instance.post<LoginRequestType, string>("/register", registerData);
     },
     logout() {

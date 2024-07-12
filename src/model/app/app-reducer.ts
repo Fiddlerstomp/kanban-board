@@ -3,7 +3,8 @@ import { AppConfigActionsType, AppConfigType } from "./types";
 const initialState: AppConfigType = {
     user: {
         isLoggedIn: false,
-        username: null
+        username: null,
+        userID: 0
     }
 };
 

@@ -2,6 +2,7 @@ export type AppConfigType = {
     user: {
         isLoggedIn: boolean;
         username: string | null;
+        userID: number;
     }
 }
 

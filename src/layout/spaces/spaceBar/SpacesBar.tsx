@@ -1,20 +1,35 @@
-import { useState } from 'react'
+import { ChangeEvent, useState, MouseEvent } from 'react'
 import styled from 'styled-components'
 import Button from '../../../component/button/Button';
 import { StyledDropMenuProps } from './types';
 import { useAppSelector } from '../../../model/store';
 import { SpaceType } from '../../../model/spaces/types';
+import { SpaceSelectType } from '../Spaces';
 
-const SpacesBar = () => {
+type SpacesBarProps = {
+  selectedSpace: SpaceSelectType;
+  createSpace: (title: string) => void;
+  setSelectedSpace: (spaceID: number) => void;
+};
+
+const SpacesBar = (props: SpacesBarProps) => {
   const spaces = useAppSelector<SpaceType[]>(state => state.spaces);
   const [dropMenuView, setDropMenuView] = useState<boolean>(false);
+  const [newSpaceTitle, setNewSpaceTitle] = useState<string>("");
 
   const createSpaceButtonHandler = () => {
     setDropMenuView(!dropMenuView)
   };
 
-  const createSpaceModalButton = () => {
+  const clickCreateSpaceHandler = () => {
+    const title = newSpaceTitle.trim();
+    props.createSpace(title);
+    setNewSpaceTitle("");
+    setDropMenuView(false);
+  };
 
+  const changeNewSpaceTitle = (e: ChangeEvent<HTMLInputElement>) => {
+    setNewSpaceTitle(e.target.value);
   };
 
   return (
@@ -22,16 +37,23 @@ const SpacesBar = () => {
       <StyledHeader>
         <h3>Workspaces</h3>
         <div>
-          <Button title="+" height="1.7rem" width="1.7rem" clickCallback={createSpaceButtonHandler}/>
+          <Button title="+" height="1.7rem" width="1.7rem" clickCallback={createSpaceButtonHandler} />
           <DropMenu dropMenuView={dropMenuView}>
             <p>Space Title</p>
-            <input type="text" />
-            <Button title="Create" clickCallback={() => {}}/>
+            <input type="text" value={newSpaceTitle} onChange={changeNewSpaceTitle} />
+            <Button title="Create" clickCallback={clickCreateSpaceHandler} />
           </DropMenu>
         </div>
       </StyledHeader>
       <StyledWorkSpaceList>
-        {spaces.map(space => <StyledWorkSpaceItem>{space.title}</StyledWorkSpaceItem>)}
+        {spaces.map(space => {
+          const clickSpaceItem = () => {
+            props.setSelectedSpace(space.id);
+          };
+          return (
+            <StyledWorkSpaceItem key={space.id} onClick={clickSpaceItem}>{space.title}</StyledWorkSpaceItem>
+          );
+        })}
       </StyledWorkSpaceList>
     </StyledSpacesBar>
   );
@@ -56,19 +78,19 @@ const StyledHeader = styled.div`
   h3 {
     font-size: 1.5em;
   }
-`
+`;
 
 const StyledWorkSpaceList = styled.ul`
   list-style-type: none;
   margin: 0;
   padding: 0;
-`
+`;
 
 const StyledWorkSpaceItem = styled.li`
   font-size: 1.3em;
   margin-bottom: 5px;
   cursor: pointer;
-`
+`;
 
 const DropMenu = styled.div<StyledDropMenuProps>`
   position: fixed;
@@ -89,6 +111,6 @@ const DropMenu = styled.div<StyledDropMenuProps>`
     margin-bottom: 10px;
     height: 1.7rem;
   }
-`
+`;
 
 export default SpacesBar

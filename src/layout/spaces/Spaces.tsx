@@ -1,32 +1,36 @@
-import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import SpacesBar from './spaceBar/SpacesBar'
 import SpacesMain from './spacesMain/SpacesMain'
-import { useAppDispatch, useAppSelector } from '../../model/store'
-import { getSpacesTC } from '../../model/thunks/spaces-thunks'
+import { useAppSelector } from '../../model/store'
+import spacesAPI from '../../api/spaces-api'
+import { useState } from 'react'
+
+export type SpaceSelectType = "all" | string;
 
 const Spaces = () => {
-    const [selectedBoard, setSelectedBoard] = useState<string>("");
-
-    const dispatch = useAppDispatch();
-
-    useEffect(() => {
-        dispatch(getSpacesTC())
-    }, []);
-
     const spaces = useAppSelector(store => store.spaces);
+    
+    const [selectedSpace, setSelectedSpace] = useState<SpaceSelectType>("all");
+
+    const createNewSpace = (title: string) => {
+        spacesAPI.createSpace(title);
+    };
+
+    const setSelectSpaceHandler = (spaceID: number) => {
+        const selectedSpaceTitle = spaces.find(space => space.id === spaceID)?.title;
+        if (selectedSpaceTitle)
+            setSelectedSpace(selectedSpaceTitle);
+    }
 
     return (
         <StyledSpaces>
-            <SpacesBar/>
-            <SpacesMain spaces={spaces}/>
-
+            <SpacesBar selectedSpace={selectedSpace} createSpace={createNewSpace} setSelectedSpace={setSelectSpaceHandler}/>
+            <SpacesMain selectedSpace={selectedSpace} spaces={spaces}/>
         </StyledSpaces>
     )
 }
 
 const StyledSpaces = styled.div`
-    display: flex;
     width: 100%;
 `
 

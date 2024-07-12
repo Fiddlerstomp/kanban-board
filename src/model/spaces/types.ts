@@ -1,9 +1,9 @@
 export type SpaceType = {
+    id: number;
     title: string;
     owner_id: number;
     allowed_users: number[];
     ordering: number[];
-    id: number;
 };
 
 export type SetSpacesAT = {
@@ -13,4 +13,13 @@ export type SetSpacesAT = {
     };
 };
 
-export type SpacesActionType = SetSpacesAT;
+export type CreateSpaceAT = {
+    type: "CREATE-SPACE";
+    payload: {
+        title: string;
+    };
+};
+
+export type SpacesActionType = 
+    SetSpacesAT
+    | CreateSpaceAT;

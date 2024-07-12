@@ -4,8 +4,13 @@ import Button from '../../component/button/Button';
 import Logo from '../../component/logo/Logo';
 import SearchBar from './SearchBar';
 import UserIcon from '../../component/UserIcon';
+import authAPI from '../../api/auth-api';
 
 const Header = () => {
+    const userIconClickHandler = () => {
+        authAPI.login();
+    }
+
     return (
         <StyledHeader>
             <Side>
@@ -14,7 +19,9 @@ const Header = () => {
             </Side>
             <Side>
                 <SearchBar />
-                <UserIcon username="Wlados" />
+                <div onClick={userIconClickHandler}>
+                    <UserIcon username="Wlados"/>
+                </div>
             </Side>
         </StyledHeader>
     )
